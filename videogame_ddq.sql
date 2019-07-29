@@ -21,8 +21,8 @@ CREATE TABLE `publisher` (
 CREATE TABLE `videogame` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
-    `developer_id` int,
-    `publisher_id` int,
+    `developer_id` int NOT NULL,
+    `publisher_id` int NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`developer_id`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (`publisher_id`) REFERENCES publisher (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -31,7 +31,7 @@ CREATE TABLE `videogame` (
 CREATE TABLE `platform` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
-    `developer_id` int,
+    `developer_id` int NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`developer_id`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;

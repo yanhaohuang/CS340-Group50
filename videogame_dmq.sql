@@ -24,6 +24,7 @@ INSERT INTO videogame_platform (videogame_id, platform_id) VALUES (:videogame_id
 
 -- UPDATE queries
 UPDATE videogame SET name = :nameInput, developer_id = :developer_id_dropdownInput, publisher_id = :publisher_id_dropdownInput 				-- update a videogame's data based on submission of the Update videogame form 
+WHERE id = :idInput
 
 -- DELETE queries
 DELETE FROM videogame WHERE id = :videogame_Input 																							-- delete a videogame
