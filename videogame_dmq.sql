@@ -6,6 +6,7 @@ SELECT v.id, v.name AS videogame_name, d.name AS developer_name, p.name AS publi
 INNER JOIN developer d ON v.developer_id = d.id 	
 INNER JOIN publisher p ON v.publisher_id = p.id
 
+SELECT id, name FROM videogame 																							-- get all videogame IDs and names to populate the videogame dropdown
 SELECT id, name FROM developer 																							-- get all developer IDs and names to populate the developer dropdown
 SELECT id, name FROM publisher 																							-- get all publisher IDs and names to populate the publisher dropdown
 SELECT id, name FROM platform 																							-- get all platform IDs and names to populate the platform dropdown
