@@ -1,0 +1,49 @@
+<html>
+<h2>Manage Video Game and Platform Relationships</h2>
+<br>
+<div>
+<h3>Associate platform(s) with a video game</h3>
+    <form action="/game_plat" method="post">
+    Video Game: <select name='vid'>
+        {{#each game}}
+            <option value='{{id}}'>{{name}}</option>
+        {{/each}}
+    </select><br>
+    Platforms:<sup>  Multi-select</sup> <select multiple name="plid"> 
+        {{#each platform}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</div>
+<br/>
+<h3>Add new platforms:</h3>
+<form action="/game_plat/platform" method="post">
+    Name: <input type="text" name="name"><br>
+    Developer: <select name="developer"> 
+            <option value="NULL"></option>
+        {{#each developer}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+</form>
+<br>
+<h3>List of video games with their platforms</h3>
+<table>
+    <thead> 
+        <th>Video Game</th> 
+        <th>Platform</th> 
+    </thead> 
+    <tbody> 
+        {{#each game_with_plat}} 
+        <tr> 
+            <td>{{vname}}</td> 
+            <td>{{pname}}</td> 
+            <td><button onclick="deleteGamePlatform({{vid}},{{plid}})">Delete</button></td>
+        </tr>
+        {{/each}} 
+    </tbody>
+</table> 
+</html>

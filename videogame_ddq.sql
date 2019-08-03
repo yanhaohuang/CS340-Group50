@@ -1,6 +1,6 @@
 
 -- Table structures
-DROP TABLE IF EXISTS `videogame_platform`;
+DROP TABLE IF EXISTS `game_plat`;
 DROP TABLE IF EXISTS `videogame`;
 DROP TABLE IF EXISTS `platform`;
 DROP TABLE IF EXISTS `developer`;
@@ -21,27 +21,27 @@ CREATE TABLE `publisher` (
 CREATE TABLE `videogame` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
-    `developer_id` int NOT NULL,
-    `publisher_id` int NOT NULL,
+    `did` int,
+    `pid` int,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`developer_id`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`publisher_id`) REFERENCES publisher (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`did`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`pid`) REFERENCES publisher (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE `platform` (
     `id` int NOT NULL AUTO_INCREMENT,
     `name` varchar(100) NOT NULL,
-    `developer_id` int NOT NULL,
+    `did` int,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`developer_id`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+    FOREIGN KEY (`did`) REFERENCES developer (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
-CREATE TABLE `videogame_platform` (
-    `videogame_id` int,
-    `platform_id` int,
-    PRIMARY KEY (`videogame_id`,`platform_id`),
-    FOREIGN KEY (`videogame_id`) REFERENCES videogame (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (`platform_id`) REFERENCES platform (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+CREATE TABLE `game_plat` (
+    `vid` int,
+    `plid` int,
+    PRIMARY KEY (`vid`,`plid`),
+    FOREIGN KEY (`vid`) REFERENCES videogame (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (`plid`) REFERENCES platform (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB;
 
 -- Dumping data for tables
@@ -51,17 +51,17 @@ VALUES ('Nintendo'), ('Sony'), ('Microsoft'), ('Naughty_Dog'), ('Bungie');
 INSERT INTO publisher (name) 
 VALUES ('Nintendo'), ('Sony'), ('Microsoft');
 
-INSERT INTO videogame (name, developer_id, publisher_id)
+INSERT INTO videogame (name, did, pid)
 VALUES ('Uncharted', (SELECT id FROM developer WHERE name = 'Naughty_Dog'), (SELECT id FROM publisher WHERE name = 'Sony')),
 ('Super_Mario_Odyssey', (SELECT id FROM developer WHERE name = 'Nintendo'), (SELECT id FROM publisher WHERE name = 'Nintendo')),
 ('Halo', (SELECT id FROM developer WHERE name = 'Bungie'), (SELECT id FROM publisher WHERE name = 'Microsoft'));
 
-INSERT INTO platform (name, developer_id)
+INSERT INTO platform (name, did)
 VALUES ('PlayStation', (SELECT id FROM developer WHERE name = 'Sony')),
 ('Xbox', (SELECT id FROM developer WHERE name = 'Microsoft')),
 ('Switch', (SELECT id FROM developer WHERE name = 'Nintendo'));
 
-INSERT INTO videogame_platform (videogame_id, platform_id)
+INSERT INTO game_plat (vid, plid)
 VALUES ((SELECT id FROM videogame WHERE name = 'Uncharted'), (SELECT id FROM platform WHERE name = 'PlayStation')),
 ((SELECT id FROM videogame WHERE name = 'Super_Mario_Odyssey'), (SELECT id FROM platform WHERE name = 'Switch')),
 ((SELECT id FROM videogame WHERE name = 'Halo'), (SELECT id FROM platform WHERE name = 'Xbox'));

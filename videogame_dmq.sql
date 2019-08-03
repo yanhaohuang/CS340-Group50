@@ -1,32 +1,35 @@
 
 -- SELECT queries
-SELECT * FROM videogame v WHERE v.name LIKE "%:nameInput%" 																-- get videogame by name
+SELECT v.id AS id, v.name AS vname, d.name AS dname, p.name AS pname FROM videogame v									-- get videogames by name
+INNER JOIN developer d ON v.did = d.id 	
+INNER JOIN publisher p ON v.pid = p.id
+WHERE vname LIKE "%:nameInput%" 
 
-SELECT v.id, v.name AS videogame_name, d.name AS developer_name, p.name AS publisher_name FROM videogame v				-- get all videogames
-INNER JOIN developer d ON v.developer_id = d.id 	
-INNER JOIN publisher p ON v.publisher_id = p.id
+SELECT v.id AS id, v.name AS vname, d.name AS dname, p.name AS pname FROM videogame v									-- get all videogames
+INNER JOIN developer d ON v.did = d.id 	
+INNER JOIN publisher p ON v.pid = p.id
 
 SELECT id, name FROM videogame 																							-- get all videogame IDs and names to populate the videogame dropdown
 SELECT id, name FROM developer 																							-- get all developer IDs and names to populate the developer dropdown
 SELECT id, name FROM publisher 																							-- get all publisher IDs and names to populate the publisher dropdown
 SELECT id, name FROM platform 																							-- get all platform IDs and names to populate the platform dropdown
 
-SELECT videogame_id, v.name AS videogame_name, platform_id, p.name AS platform_name FROM videogame v 					-- get all videogame with their current associated platforms to list
-INNER JOIN videogame_platform vp ON v.id = vp.videogame_id 
-INNER JOIN platform p on p.id = vp.platform_id 
-ORDER BY videogame_name, platform_name
+SELECT vid, v.name AS vname, plid, p.name AS pname FROM videogame v 													-- get all videogame with their current associated platforms to list
+INNER JOIN game_plat gp ON v.id = gp.vid 
+INNER JOIN platform p on p.id = gp.plid 
+ORDER BY vname, pname
 
 -- INSERT queries
-INSERT INTO developer (name) VALUES (:nameInput) 																							-- add a new developer
-INSERT INTO publisher (name) VALUES (:nameInput) 																							-- add a new publisher
-INSERT INTO videogame (name, developer_id, publisher_id) VALUES (:nameInput, :developer_id_dropdownInput, :publisher_id_dropdownInput) 		-- add a new videogame
-INSERT INTO platform (name, developer_id) VALUES (:nameInput, :developer_id_dropdownInput) 													-- add a new platform
-INSERT INTO videogame_platform (videogame_id, platform_id) VALUES (:videogame_id_dropdownInput, :platform_id_dropdownInput) 				-- associate a videogame with a platform (M-to-M relationship addition)
+INSERT INTO developer (name) VALUES (:nameInput) 																		-- add a new developer
+INSERT INTO publisher (name) VALUES (:nameInput) 																		-- add a new publisher
+INSERT INTO videogame (name, did, pid) VALUES (:nameInput, :developer_id_dropdownInput, :publisher_id_dropdownInput)	-- add a new videogame
+INSERT INTO platform (name, did) VALUES (:nameInput, :developer_id_dropdownInput) 										-- add a new platform
+INSERT INTO game_plat (vid, plid) VALUES (:videogame_id_dropdownInput, :platform_id_dropdownInput) 						-- associate a videogame with a platform (M-to-M relationship addition)
 
 -- UPDATE queries
-UPDATE videogame SET name = :nameInput, developer_id = :developer_id_dropdownInput, publisher_id = :publisher_id_dropdownInput 				-- update a videogame's data based on submission of the Update videogame form 
+UPDATE videogame SET name = :nameInput, did = :developer_id_dropdownInput, pid = :publisher_id_dropdownInput 			-- update a videogame's data based on submission of the Update videogame form 
 WHERE id = :idInput
 
 -- DELETE queries
-DELETE FROM videogame WHERE id = :videogame_Input 																							-- delete a videogame
-DELETE FROM videogame_platform WHERE videogame_id = :videogame_id_Input AND platform_id = :platform_id_Input 								-- dis-associate a videogame from a platform (M-to-M relationship deletion)
+DELETE FROM videogame WHERE id = :videogame_id_Input 																	-- delete a videogame
+DELETE FROM game_plat WHERE vid = :videogame_id_Input AND plid = :platform_id_Input 									-- dis-associate a videogame from a platform (M-to-M relationship deletion)

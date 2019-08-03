@@ -1,0 +1,60 @@
+<html>
+<h2>Manage Video Games</h2>
+<br>
+<h3>Add new video games:</h3>
+<form action="/game" method="post">
+    Name: <input type="text" name="name"><br>
+    Developer: <select name="developer">
+            <option value="NULL"></option>
+        {{#each developer}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Publisher: <select name="publisher">
+            <option value="NULL"></option>
+        {{#each publisher}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+ </form>
+<br/>
+<br>
+<h3>Add new developers:</h3>
+<form action="/game/developer" method="post">
+    Name: <input type="text" name="name"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br>
+<h3>Add new publishers:</h3>
+<form action="/game/publisher" method="post">
+    Name: <input type="text" name="name"><br>
+    <input type="submit" value="Submit">
+ </form>
+<br><br>
+<h3>List of video games with their developers and publishers</h3>
+<table>
+    <thead> 
+        <th>Name</th> 
+        <th>Developer</th> 
+        <th>Publisher</th>
+    </thead> 
+    <tbody>
+        {{#each game}} 
+        <tr> 
+            <td>{{vname}}</td> 
+            <td>{{dname}}</td> 
+            <td>{{pname}}</td> 
+            <td><button onclick="deleteGame({{id}})">Delete</button></td>
+            <td><a href="/game/{{id}}">Update</a></td>
+        </tr> 
+        {{/each}} 
+    </tbody> 
+</table> 
+<br><br>
+<form action='' method=''>
+    <label> Search video games by name:</label>
+    <input id='search_string' type='text' placeholder="Enter video game name" name='search_string' value=''>
+    <input type="button" value="Search" onclick="searchGame()">
+</form>
+</html>

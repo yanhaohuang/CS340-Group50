@@ -1,0 +1,21 @@
+<html>
+<h2>Update {{game.name}}:</h2>
+<form id="update-game" action="/game" method="post">
+    Name: <input type="text" name="name" value="{{game.name}}"><br>
+    Developer: <select name="developer" id="developer-selector">
+    		<option value="NULL"></option>
+        {{#each developer}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    Publisher: <select name="publisher" id="publisher-selector">
+    		<option value="NULL"></option>
+        {{#each publisher}}
+            <option value="{{id}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+</form>
+<button onclick="updateGame({{game.id}})">Update</button>
+<script defer>selectDeveloper({{game.did}});</script>
+<script defer>selectPublisher({{game.pid}});</script>
+</html>
